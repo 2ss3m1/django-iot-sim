@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dashboard Capteurs en temps réel</title>
+</head>
+<body>
+    <h1>Données capteurs</h1>
+    <pre id="data">En attente de données...</pre>
+
+    <script>
+        const ws = new WebSocket('ws://' + window.location.host + '/ws/sensor-data/');
+
+        ws.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            document.getElementById('data').textContent = JSON.stringify(data, null, 2);
+        };
+
+        ws.onopen = function() {
+            console.log("WebSocket connecté");
+        };
+
+        ws.onclose = function() {
+            console.log("WebSocket déconnecté");
+        };
+    </script>
+</body>
+</html>

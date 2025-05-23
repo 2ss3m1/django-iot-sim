@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head><title>Live Sensor Data</title></head>
+<body>
+<h2>Données capteurs</h2>
+<pre id="data"></pre>
+
+<script>
+const dataElem = document.getElementById('data');
+
+const ws = new WebSocket('ws://' + window.location.host + '/ws/sensor-data/');
+
+ws.onmessage = function(event) {
+    const data = JSON.parse(event.data);
+    console.log("Données reçues via WS:", data);
+    dataElem.textContent = JSON.stringify(data, null, 2);
+};
+
+ws.onopen = function() {
+    console.log("WebSocket connecté");
+};
+
+ws.onclose = function() {
+    console.log("WebSocket déconnecté");
+};
+</script>
+
+</body>
+</html>
